@@ -18,6 +18,10 @@ import request from "../../request";
 import Applications from "./Applications";
 import Categories from "./Categories";
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default function Home({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +32,16 @@ export default function Home({ navigation }) {
   const [applications, setApplications] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    fetchRandomApps();
+    setSearchValue(null);
+    setCategoryId(null);
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
   const fetchRandomApps = () => {
     request("/api/apps/random", "POST", { platform: Platform.OS })
       .then((data) => {
@@ -37,7 +51,6 @@ export default function Home({ navigation }) {
         console.log(e, "random apps error");
       });
   };
-
 
   const fetchApplications = () => {
     request("/api/apps", "POST", {
@@ -65,8 +78,6 @@ export default function Home({ navigation }) {
       fetchApplications();
     }
   }, [searchValue, categoryId]);
-
-
 
   useEffect(() => {
     request("/admin/category", "POST", {
@@ -116,11 +127,14 @@ export default function Home({ navigation }) {
       <ScrollView
         refreshControl={
           <RefreshControl
-            onRefresh={() => {
-              fetchRandomApps();
-              setSearchValue(null);
-              setCategoryId(null)
-            }}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+
+            // onRefresh={() => {
+            //   fetchRandomApps();
+            //   setSearchValue(null);
+            //   setCategoryId(null)
+            // }}
           />
         }
       >
@@ -153,7 +167,7 @@ export default function Home({ navigation }) {
           showsHorizontalScrollIndicator={false}
         />
 
-        <Applications isLoading={isLoading} applications={applications}  />
+        <Applications isLoading={isLoading} applications={applications} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -28,7 +28,7 @@ console.log(Platform.OS,Platform.OS)
     })
       .then((data) => {
         console.log(data, "details response");
-        // setDetails(data.data);
+        setDetails(data.data);
       })
       .catch((e) => console.log(e, "details error"));
   };
