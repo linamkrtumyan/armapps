@@ -41,7 +41,7 @@ export default function Categories({ categories, setCategoryId }) {
                     <Text style={styles.category}>{item.name}</Text>
                   </TouchableOpacity>
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item,index) => index}
                 showsVerticalScrollIndicator={false}
               />
             </View>

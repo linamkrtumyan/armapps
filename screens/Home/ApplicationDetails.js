@@ -136,7 +136,7 @@ console.log(Platform.OS,Platform.OS)
         <FlatList
           data={details.screenshots}
           renderItem={({ item }) => <ItemRender images={item} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => index}
           ItemSeparatorComponent={Separator}
           horizontal={true}
           showsHorizontalScrollIndicator={false}

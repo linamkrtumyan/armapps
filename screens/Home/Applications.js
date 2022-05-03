@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function Applications({ isLoading, applications }) {
   const navigation = useNavigation();
 
-  // console.log(applicarions,"app details")
+  console.log(applications,"applications")
 
   if (isLoading) {
     return <ActivityIndicator size="small" color="#0000ff" />;
@@ -23,13 +23,13 @@ export default function Applications({ isLoading, applications }) {
     <View>
       {applications.length > 0 ? (
         applications?.map((application, index) => (
-          <>
-            <Text key={index} style={styles.category}>
+          <View key={index}>
+            <Text  style={styles.category}>
               {application.category}
             </Text>
             {application.applications.map((app, index) => (
-              <>
-                <View key={index} style={styles.appContainer}>
+              <View key={app.id}>
+                <View  style={styles.appContainer}>
                   <View style={styles.appInfo}>
                     {/* <AppLogo1 /> */}
                     <ImageBackground
@@ -68,9 +68,9 @@ export default function Applications({ isLoading, applications }) {
                     borderBottomWidth: 1,
                   }}
                 />
-              </>
+              </View>
             ))}
-          </>
+          </View>
         ))
       ) : (
         <Text style={{ fontSize: 32, textAlign: "center" }}>No data</Text>

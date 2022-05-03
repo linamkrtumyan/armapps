@@ -161,7 +161,7 @@ export default function Home({ navigation }) {
           renderItem={({ item }) => (
             <ItemRender image={item.image} id={item.id} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => index}
           ItemSeparatorComponent={Separator}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
